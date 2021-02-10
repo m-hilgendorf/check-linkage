@@ -1,0 +1,19 @@
+on: [push]
+jobs:
+  build:
+    strategy:
+      matrix: 
+        os: [ubuntu-18.04, ubuntu-16.04, ubuntu-latest]
+      fail-fast: false 
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. 
+          make
+      - name: Check Linkage
+        run: ldd build/exe
